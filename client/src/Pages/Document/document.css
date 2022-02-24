@@ -1,0 +1,52 @@
+.userList {
+  }
+  
+  .userListUser {
+    display: flex;
+    align-items: center;
+  }
+  
+  .userListImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .userListEdit{
+      border: none;
+      border-radius: 10px;
+      padding: 5px 10px;
+      background-color: #3bb077;
+      color: white;
+      cursor: pointer;
+      margin-right: 20px;
+  }
+  .userListEdit:disabled{
+    background-color: rgb(206, 203, 203);
+  }
+  .userListDelete{
+      color: red;
+      cursor: pointer;
+  }
+
+  .sliderarrow{
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 99;
+    color: white;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+    
+}
+.sliderarrow.left{
+  left: 0;
+}
+.sliderarrow.right{
+  right: 0;
+}
