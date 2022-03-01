@@ -64,7 +64,7 @@ const Folder = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const current = useSelector(state=>state.user.currentUser)
-    const [inputs,setInputs]=useState({})
+    const [inputs,setInputs]=useState({foldername:edit==="?edit"?foldername:""})
     let data = []
      if(edit==="?level"){
       if(current.level === "president"&&foldername===""){
@@ -104,6 +104,7 @@ const Folder = () => {
                     <Item>
                         <Label>Folder name</Label>
                        <Input type='text' name="foldername" 
+                       value={inputs.foldername}
                        onChange={(e)=>onChangeHandler(e)} />
                     </Item>
                     <Item>

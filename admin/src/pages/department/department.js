@@ -132,7 +132,7 @@ export default function DepartmentList() {
     {
       field: "depName",
       headerName: "Department",
-      width: 150,
+      width: 250,
       renderCell: (params) => {
         return (
           <div className="userListUser">
@@ -143,11 +143,11 @@ export default function DepartmentList() {
     },{
         field: "createdAt",
         headerName: "Date",
-        width: 110,
+        width: 310,
         renderCell: (params) => {
           return (
             <div className="userListUser">
-              {format(params.row.createdAt)}
+              {params.row.createdAt}
             </div>
           );
         },
@@ -155,7 +155,7 @@ export default function DepartmentList() {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 350,
       renderCell: (params) => {
         return (
           <>
@@ -186,7 +186,6 @@ export default function DepartmentList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
         getRowId={(row) => row._id}
       />
      

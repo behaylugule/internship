@@ -4,6 +4,7 @@
   background-color: rgb(251, 251, 255);
   position: sticky;
   top: 50px;
+  margin-top: 50px;
  
 }
 
@@ -35,7 +36,7 @@
   border-radius: 10px;
 }
 
-.sidebarListItem.active,
+
 .sidebarListItem:hover {
   background-color: rgb(240, 240, 255);
 }

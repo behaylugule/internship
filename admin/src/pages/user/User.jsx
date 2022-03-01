@@ -16,6 +16,7 @@ import {updateUser} from '../../redux/apiCall'
 import styled from 'styled-components'
 import {getDepartments} from '../../redux/apiCall'
 import Role from '../../components/Role/Role'
+ 
 const Container = styled.div` 
  position: fixed;
  top: 0;
@@ -33,8 +34,10 @@ const Container = styled.div`
 export default function User() {
   const history = useHistory()
   const dispatch = useDispatch()
+  
+  
   useEffect(() => {
-    getDepartments(dispatch)
+    getDepartments(dispatch)    
   }, [dispatch])
 
   const location = useLocation();
@@ -47,14 +50,15 @@ export default function User() {
      "president","vice-president","college-head","head","member"
     ]
    const [values, setValues] = useState({
-    username: user.username,
-    email: user.email,
-    fullname: user.fullname,
-    address:user.address,
-    phone:user.phone,
-    gender:user.gender,
-    level:user.level
+    username: user?.username,
+    email: user?.email,
+    fullname: user?.fullname,
+    address:user?.address,
+    phone:user?.phone,
+    gender:user?.gender,
+    level:user?.level
   });
+  console.log(values)
 
   const [showModel, setShowModel]=useState(false)
   const inputs = [
@@ -128,7 +132,7 @@ export default function User() {
               src={user?.avatar}
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">{user.fullname}</span>
+              <span className="userShowUsername">{user?.fullname}</span>
               <span className="userShowUserTitle">{user?.role?.map(r=><span key={r.depId} style={{marginRight:"5px"}}>{r.depName}</span>)}</span>
             </div>
           </div>
@@ -136,27 +140,27 @@ export default function User() {
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">{user.username}</span>
+              <span className="userShowInfoTitle">{user?.username}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">Joined in {user.createdAt}</span>
+              <span className="userShowInfoTitle">Joined in {user?.createdAt}</span>
             </div>
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">{user.phone}</span>
+              <span className="userShowInfoTitle">{user?.phone}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">{user.email}</span>
+              <span className="userShowInfoTitle">{user?.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">{user.address}</span>
+              <span className="userShowInfoTitle">{user?.address}</span>
             </div>
             <div className="userShowInfo">
-              <span className="userShowInfoTitle">{user.level}</span>
+              <span className="userShowInfoTitle">{user?.level}</span>
             </div>
             <button className="userUpdateButton"
              style={{marginTop:"50px",padding:"10px 20px"}}
@@ -237,6 +241,7 @@ export default function User() {
              <label>Role</label>
               <select name="level" id=""  onChange={(e)=>onChange(e)} 
               >
+                <option >Select</option>
                 {data.map(i=><option>{i}</option>)}
               </select>
               <button className="userUpdateButton">Update</button>

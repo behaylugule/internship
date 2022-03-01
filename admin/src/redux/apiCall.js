@@ -18,7 +18,7 @@ import axios from 'axios'
 export const login= async(dispach,user)=>{
     try {
        dispach(loginStart())
-       const res = await publicMethod.post("https://documentmanagmentsytem.herokuapp.com/api/auth/login",user)
+       const res = await axios.post("https://aastudms.herokuapp.com/api/auth/login",user)
        localStorage.setItem("token", res.data.accessToken)
        dispach(loginSuccess(res.data))
 
@@ -42,7 +42,7 @@ export const logout=async(dispach)=>{
 export const getNotification= async(dispach)=>{
     dispach(notificationStart())
     try {
-       const res = await axios.get("https://documentmanagmentsytem.herokuapp.com/api/users/notification",{
+       const res = await axios.get("https://aastudms.herokuapp.com/api/users/notification",{
         headers:{
             token:`Bearer ${localStorage.getItem("token")}`
         }
@@ -53,10 +53,10 @@ export const getNotification= async(dispach)=>{
     }
 }
 
-export const varifyUser = async(dispach,id)=>{
+export const varifyUser = async(dispach,id,history)=>{
     dispach(notificationStart())
     try {
-      const user = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/users/varify/${id}`,
+      const user = await axios.put(`https://aastudms.herokuapp.com/api/users/varify/${id}`,
       {isVarify:true},
       {
         headers:{
@@ -64,7 +64,8 @@ export const varifyUser = async(dispach,id)=>{
         }
     }
       )  
-        dispach(varifySucess(id))      
+        dispach(varifySucess(id))  
+        history.push(`/users`)    
     } catch (error) {
         dispach(notificationFail("user not varified please try again!!!"))
     }
@@ -73,7 +74,7 @@ export const varifyUser = async(dispach,id)=>{
 export const deleteVarifyUser = async(dispach,id)=>{
     dispach(notificationStart())
     try {
-   const user = await axios.delete(`https://documentmanagmentsytem.herokuapp.com/api/users/${id}`,{
+   const user = await axios.delete(`https://aastudms.herokuapp.com/api/users/${id}`,{
     headers:{
         token:`Bearer ${localStorage.getItem("token")}`
     }
@@ -87,7 +88,7 @@ export const deleteVarifyUser = async(dispach,id)=>{
 export const getUsers = async(dispatch,token)=>{
     dispatch(usersGetStart())
     try {
-        const res = await axios.get(`https://documentmanagmentsytem.herokuapp.com/api/users`,{
+        const res = await axios.get(`https://aastudms.herokuapp.com/api/users`,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -102,7 +103,7 @@ export const getUsers = async(dispatch,token)=>{
 export const deleteUser = async(dispach,id)=>{
     dispach(deleteUsersStart())
     try {
-        const user = await axios.delete(`https://documentmanagmentsytem.herokuapp.com/api/users/${id}`
+        const user = await axios.delete(`https://aastudms.herokuapp.com/api/users/${id}`
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -117,7 +118,7 @@ export const deleteUser = async(dispach,id)=>{
 export const createUser = async(dispatch,data,history)=>{
     dispatch(createUsersStart())
     try {
-        const res = await axios.post('https://documentmanagmentsytem.herokuapp.com/api/auth/register',
+        const res = await axios.post('https://aastudms.herokuapp.com/api/auth/register',
         data
         ,{
             headers:{
@@ -134,7 +135,7 @@ export const createUser = async(dispatch,data,history)=>{
 export const updateUser = async(dispatch,data,history,id)=>{
     dispatch(updateUsersStart())
     try {
-        const res = await axios.put(`http://localhost:5000/api/users/${id}`,
+        const res = await axios.put(`https://aastudms.herokuapp.com/api/users/${id}`,
         data
         ,{
             headers:{
@@ -151,7 +152,7 @@ export const updateUser = async(dispatch,data,history,id)=>{
 export const getDepartments = async(dispatch)=>{
     dispatch(getDepStart())
     try {
-        const res = await axios.get('https://documentmanagmentsytem.herokuapp.com/api/departments'
+        const res = await axios.get('https://aastudms.herokuapp.com/api/departments'
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -166,7 +167,7 @@ export const getDepartments = async(dispatch)=>{
 export const createDepartment = async(dispatch,data,history)=>{
     dispatch(createDepStart())
     try {
-        const res = await axios.post('https://documentmanagmentsytem.herokuapp.com/api/departments',
+        const res = await axios.post('https://aastudms.herokuapp.com/api/departments',
         data,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -181,7 +182,7 @@ export const createDepartment = async(dispatch,data,history)=>{
 export const deleteDepartment = async(dispatch,id)=>{
        dispatch(deleteDepStart())
     try {
-          const res = await axios.delete(`https://documentmanagmentsytem.herokuapp.com/api/departments/${id}`
+          const res = await axios.delete(`https://aastudms.herokuapp.com/api/departments/${id}`
           ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -198,7 +199,7 @@ export const updateDepartment = async(dispatch,data,history,id)=>{
     dispatch(updateDepStart())
     console.log(localStorage.getItem("token"))
     try {
-        const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/departments/${id}`,data,{
+        const res = await axios.put(`https://aastudms.herokuapp.com/api/departments/${id}`,data,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -212,7 +213,7 @@ export const updateDepartment = async(dispatch,data,history,id)=>{
 export const addRole = async(dispatch,data,id,history)=>{
     dispatch(updateUsersStart())
     try {
-        const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/users/${id}`,{role:data},{
+        const res = await axios.put(`https://aastudms.herokuapp.com/api/users/${id}`,{role:data},{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -228,7 +229,7 @@ export const addRole = async(dispatch,data,id,history)=>{
 export const changePassword= async(dispatch,id,data)=>{
     dispatch(changePasswordStart())
     try {
-      const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/users/password/${id}`,data
+      const res = await axios.put(`https://aastudms.herokuapp.com/api/users/password/${id}`,data
       ,{
           headers:{
               token:`Bearer ${localStorage.getItem("token")}`

@@ -1,5 +1,5 @@
 const sgMail = require('@sendgrid/mail')
-const fs = require('@sendgrid/mail')
+const fs = require('fs')
 
 const sendEmail =  async(document)=>{
     sgMail.setApiKey('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');;

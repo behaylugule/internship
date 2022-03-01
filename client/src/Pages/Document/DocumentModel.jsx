@@ -144,7 +144,6 @@ const DocumentModel = ({showModel,setShowModel,pdfData}) => {
          <Detail>
              <Title>Name: {pdfData.documentName}</Title>
              <Desc>Desc: {pdfData.description}</Desc>
-             <Size> Size: 1.12Mb</Size>
          </Detail>
          <Link href={pdfData.documentUrl} target="_blank">
             View Document

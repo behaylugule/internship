@@ -3,6 +3,8 @@ const userSlice = createSlice({
     name: 'user',
     initialState:{
       currentUser:null,
+      users:[],
+      message:null,
       isFatching:false,
       error:null
     },
@@ -45,12 +47,36 @@ const userSlice = createSlice({
         changePasswordFail:(state,action)=>{
           state.isFatching = false
           state.error = action.payload
-        }
+        },
+        getUsersStart:(state)=>{
+          state.isFatching = true
+        },
+        getUsersSuccess:(state,action)=>{
+          state.isFatching = false
+          state.users = action.payload
+        },
+        getUsersFail:(state,action)=>{
+          state.isFatching = false
+          state.error = action.payload
+        },
+        sendPasswordResetStart:(state)=>{
+          state.isFatching = true
+        },
+        sendPasswordResetSuccess:(state,action)=>{
+          state.isFatching = false
+          state.message = action.payload
+        },
+        sendPasswordResetFail:(state,action)=>{
+          state.isFatching = false
+          state.error = action.payload
+        } 
     },
   })
   
   export const { loginStart,loginSuccess,loginFail,logoutSucess,logoutFail,
     updateSuccess,createUserSucess,
-    changePasswordStart,changePasswordSuccess,changePasswordFail
+    changePasswordStart,changePasswordSuccess,changePasswordFail,
+    getUsersStart,getUsersSuccess,getUsersFail,
+    sendPasswordResetStart,sendPasswordResetSuccess,sendPasswordResetFail
   } = userSlice.actions
   export default userSlice.reducer

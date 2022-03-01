@@ -8,7 +8,7 @@ import {
   Dehaze
 } from "@material-ui/icons";
 import {Avatar} from '@material-ui/core'
-import { useLocation,useHistory } from "react-router-dom";
+import { useLocation,useHistory, Redirect } from "react-router-dom";
 import "./user.css";
 import {useSelector,useDispatch} from 'react-redux'
 import moment from 'moment'
@@ -108,6 +108,8 @@ useEffect(() => {
   }, [screenSize])
 
   return (
+    <>
+    {screenSize.dynamicWidth<600 && <Redirect to="/devicenotsupport"/>}
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
@@ -243,5 +245,6 @@ useEffect(() => {
       </div>
        
     </div>
+    </>
   );
 }

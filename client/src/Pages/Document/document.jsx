@@ -19,7 +19,6 @@ import {Tooltip} from '@material-ui/core'
 const Container = styled.div`
   background-color: white;
   height: calc(100vh - 70px);
-  overflow: hidden;
 `
 const Wrapper = styled.div` 
   position: relative;
@@ -181,9 +180,9 @@ useEffect(() => {
 
   const columns = [
     {
-      field:"documentname",
+      field:"documentName",
       headerName: "documentname",
-      width: 150,
+      width: `${screenSize.dynamicWidth>600?250:150}`,
       renderCell: (params) => {
         return (
           <div className="userListUser">
@@ -200,11 +199,11 @@ useEffect(() => {
     {
         field: "createdAt",
         headerName: "Date",
-        width:`${screenSize.dynamicWidth>600?110:0}`,
+        width:`${screenSize.dynamicWidth>600?250:0}`,
         renderCell: (params) => {
           return (
             <div className="userListUser" style={{display:`${screenSize.dynamicWidth>600?"block":"none"}`}}>
-              {format(params.row.createdAt)}
+              {params.row.createdAt}
             </div>
           );
         },

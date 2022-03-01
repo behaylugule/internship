@@ -95,7 +95,7 @@ export default function SignIn() {
           {user.error!==null&&<Alert severity="error">{user.error}</Alert>}
           <Grid container>
             <Grid item xs>
-              <Link to="/" className='link'>
+              <Link to="/resetpassword" className='link'>
                 Forgot password?
               </Link>
             </Grid>

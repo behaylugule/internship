@@ -7,6 +7,8 @@ import { useDispatch,useSelector } from 'react-redux';
 import {getNotification} from '../../redux/apiCall'
 import {format} from 'timeago.js'
 import {varifyUser,deleteVarifyUser} from '../../redux/apiCall'
+import {useHistory} from 'react-router-dom'
+import {Avatar} from '@material-ui/core'
 const Container = styled.div`
     flex: 4;
     height: 95vh;
@@ -19,7 +21,8 @@ const Wrapper = styled.div`
 `
 export default function Model(){
   const user = useSelector(state=>state.varifyUsers.varifyUsers)
-  
+  const currentUser = useSelector(state=>state.user.currentUser)
+  const history = useHistory()
     const dispatch = useDispatch()
     useEffect(() => {
        getNotification(dispatch)
@@ -31,7 +34,7 @@ export default function Model(){
   };
 
   const varifyOnHandle = (id)=>{
-    varifyUser(dispatch,id)   
+    varifyUser(dispatch,id,history)   
   }
  
   const columns = [
@@ -43,11 +46,19 @@ export default function Model(){
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src="https://image.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg" alt="" />
-            {params.row.username}
+           <Avatar
+              alt="Remy Sharp"
+              src={currentUser?.avatar}
+            />
+            <span>{params.row.username}</span>  
           </div>
         );
       },
+    },
+    {
+      field: "fullname",
+      headerName: "Full Name",
+      width: 200,
     },
     { field: "email", headerName: "Email", width: 200 },
     {

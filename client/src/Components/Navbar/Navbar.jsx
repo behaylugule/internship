@@ -63,7 +63,7 @@ const Icon = styled.span`
 `
   const useStyles = makeStyles((theme) => ({
     appbar:{
-        backgroundColor:"white",
+        backgroundColor:"#00aeff",
         color: "black"
     },
     toolbar: {
@@ -178,15 +178,11 @@ const Icon = styled.span`
         
         <Toolbar className={classes.toolbar}>
         <div className={classes.menuitemandlogo}>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-        onClick={(e)=>handleShow()}>
-           <MenuIcon />
-       </IconButton>
         <Link to="/"    style={{textDecoration:'none',color:"black"}} >
         <div className={classes.logoContainer}>
            <img src="https://cdn.pixabay.com/photo/2017/03/08/14/20/flat-2126884_960_720.png" className={classes.imgLogo} alt="logo" />
              <Typography variant="h6" className={classes.logoLg}>
-               DMS
+               AASTU
             </Typography>
         </div>
         </Link>
@@ -196,7 +192,6 @@ const Icon = styled.span`
          
           <div className={classes.icons}>
             <div className={classes.username}>
-              <ArrowDropDown/>
               <Typography>{currentUser?.username}</Typography>
             </div>
             <Avatar

@@ -29,7 +29,7 @@ export default function Chart({ title, data, dataKey, grid }) {
   useEffect(()=>{
   const getUserStats= async()=>{
      try {
-       const res = await axios.get('http://localhost:5000/api/users/stats',{
+       const res = await axios.get('https://aastudms.herokuapp.com/api/users/stats',{
          headers:{
            token:`Bearer ${localStorage.getItem("token")}`
          }

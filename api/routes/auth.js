@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-
+const sgMail = require('@sendgrid/mail');
 //REGISTER
 router.post("/register", async (req, res) => {
   const newUser = new User({
@@ -100,4 +100,25 @@ router.post('/loginuser', async (req, res) => {
         return res.status(500).json(err);
     }
 });
+
+
+router.post('/forgetpassword', async (req, res) => {
+    try{
+        const user = await User.findOne({email:req.body.email})
+        if(user===null) return res.status(404).json("user not found with this email")
+        sgMail.setApiKey('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');
+        await sgMail.send({
+            to: req.body.email,
+            from: 'behaylugule@gmail.com', // Use the email address or domain you verified above
+            subject: 'Password Reset Link',
+            text: 'Click the link to reset the password',
+            html: '<strong>Click the link to reset the password <a>http://localhost:3000/passwordreset</a></strong>',
+            });
+        res.status(200).json("chack your email please!!!")
+    }catch(err){
+        console.log(err)
+        return res.status(500).json(err);
+    }
+});
+
 module.exports = router;

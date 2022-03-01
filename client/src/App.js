@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import Navbar from './Components/Navbar/Navbar';
 import Sidebar from './Components/Sidebar/Sidebar'
 import { Grid,makeStyles } from "@material-ui/core";
@@ -14,6 +14,8 @@ import CreateFolder from './Pages/Folder/Folder'
 import CreateDocument from './Pages/Createdocument/Createdocument'
 import ChangePassword from './Pages/Changepassword/ChangePassword';
 import Signin from './Pages/Login/Signin'
+import Forgetpassword from './Pages/passwordforget/PasswordForget'
+import DeviceNot from './Pages/DeviceNot/DeviceNot';
 
 const useStyles = makeStyles((theme) => ({
   appbar:{
@@ -36,7 +38,21 @@ function App() {
     setShow(!show)
     console.log(show)
   }
-
+  const [screenSize, getDimension] = useState({
+    dynamicWidth: window.innerWidth,
+  });
+  const setDimension = () => {
+    getDimension({
+      dynamicWidth: window.innerWidth
+    })
+  }
+useEffect(() => {
+    window.addEventListener('resize', setDimension);
+    
+    return(() => {
+        window.removeEventListener('resize', setDimension);
+    })
+  }, [screenSize])
   const classes = useStyles({ show });
   return (
     <>{
@@ -56,14 +72,22 @@ function App() {
      
     }
    <Router>
+   
        <Route path="/register">
          <Register/>
         </Route>
         <Route path="/login">
            <Signin/> 
         </Route> 
+        <Route path="/resetpassword">
+         <Forgetpassword/>
+        </Route>
+        <Route exact path="/devicenotsupport">
+            <DeviceNot/>
+        </Route>
      {user?<>
-      {!user.isVarify && <Redirect to="/unvarify"/>}
+       {!user.isVarify && <Redirect to="/unvarify"/>}
+          {screenSize.dynamicWidth<600?<Redirect to="/devicenotsupport"/>:<Redirect to="/"/>}
       <Navbar handleShow={handleShow} />
         <Grid container >
           <Grid item sm={2} xs={2}  style={{display:!user.isVarify?"none":"block"}} 
@@ -71,7 +95,7 @@ function App() {
             <Sidebar/>
           </Grid>
          <Grid item sm={10} xs={10} style={{marginTop:"70px",height:"calc(100vh-70px)"}}>
-         <Switch>
+         <Switch> 
           <Route exact path="/">
             <Home />
           </Route>

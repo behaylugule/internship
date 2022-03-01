@@ -1,14 +1,15 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline,MoreVert } from "@material-ui/icons";
-import { Button,MenuItem,Typography ,Menu ,IconButton,Tooltip} from "@material-ui/core";
+import { Button,MenuItem,Typography ,Menu 
+  ,IconButton,Tooltip,Avatar} from "@material-ui/core";
 import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
 import {getUsers, deleteUser} from '../../redux/apiCall'
 import {useDispatch,useSelector} from 'react-redux'
 import styled from "styled-components";
-import {format} from 'timeago.js'
+import {format} from 'date-fns'
 
 
 const Container = styled.div`
@@ -54,7 +55,7 @@ useEffect(() => {
  }
 
  const users = useSelector(state=>state.users.users) 
-  
+  const currentUser = useSelector(state=>state.user.currentUser)
  const [anchorEl, setAnchorEl] = useState(null);
  const open = Boolean(anchorEl);
 
@@ -75,25 +76,35 @@ useEffect(() => {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src="https://image.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg" alt="" />
-            {params.row.username}
+           <Avatar
+              alt="Remy Sharp"
+              src={currentUser?.avatar}
+            />
+            <span style={{marginLeft:"10px"}}> {params.row.username}</span> 
           </div>
         );
       },
     },
+    {
+      field: "fullname",
+      headerName: "Full Name",
+      width: 200,
+    },
     { field: "email", headerName: "Email", width: 200 },
+    { field: "level", headerName: "Role", width: 200 },
     {
         field: "createdAt",
-        headerName: "Date",
-        width: 110,
+        headerName: "Joined At",
+        width: 200,
         renderCell: (params) => {
           return (
             <div className="userListUser">
-              {format(params.row.createdAt)}
+             {params.row.createdAt}
             </div>
           );
         },
       },
+     
       
     {
       field: "action",
@@ -122,7 +133,6 @@ useEffect(() => {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
         getRowId={(row) => row._id}
       />
  </Container>

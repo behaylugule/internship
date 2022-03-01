@@ -1,15 +1,20 @@
 import {loginFail,loginStart,loginSuccess,
     logoutSucess,updateSuccess,createUserSucess,
-    changePasswordStart,changePasswordSuccess,changePasswordFail} from './userRedux'
+    changePasswordStart,changePasswordSuccess,changePasswordFail,
+    getUsersStart,getUsersSuccess,getUsersFail,
+    sendPasswordResetStart,sendPasswordResetSuccess,sendPasswordResetFail
+} from './userRedux'
 import {getDocumentStart,getDocumentSuccess,getDocumentFail,
         createFolderStart,createFolderSuccess,createFolderFail,
         updateFolderStart,updateFolderSuccess,updateFolderFail,
         createDocumentStart,createDocumentSuccess,createDocumentFail,
         sendEmailStart,sendEmailSuccess,sendEmailFail,
-        deleteDocumentStart,deleteDocumentSuccess,deleteDocumentFail
+        deleteDocumentStart,deleteDocumentSuccess,deleteDocumentFail,
+        
 } from './documentRedux'
 import {publicMethod,userMethod} from '../requiestMethod'
 import axios from 'axios'
+import { async } from '@firebase/util'
 export const login= async(dispach,user)=>{
     try {
         let config = {
@@ -20,7 +25,7 @@ export const login= async(dispach,user)=>{
             }
           }
        dispach(loginStart())
-       const res = await publicMethod.post("https://documentmanagmentsytem.herokuapp.com/api/auth/loginuser",user,config)
+       const res = await axios.post(" https://aastudms.herokuapp.com/api/auth/loginuser",user,config)
        localStorage.setItem("token", res.data.accessToken)
        dispach(loginSuccess(res.data))
 
@@ -44,7 +49,7 @@ export const logout=async(dispach)=>{
 export const updateUser = async(dispatch,data,history,id)=>{
     dispatch(loginStart())
     try {
-        const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/users/${id}`, data,{
+        const res = await axios.put(` https://aastudms.herokuapp.com/api/users/${id}`, data,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -59,7 +64,7 @@ export const updateUser = async(dispatch,data,history,id)=>{
 export const createUser = async(dispatch,data,history)=>{
     dispatch(loginStart())
     try {
-        const res = await publicMethod.post('https://documentmanagmentsytem.herokuapp.com/api/auth/register', data)
+        const res = await axios.post('https://aastudms.herokuapp.com/api/auth/register', data)
         dispatch(createUserSucess())
         history.push("/login", { from: "Register" })
     } catch (error) {
@@ -71,7 +76,7 @@ export const getDocument= async(dispach,id,level)=>{
     dispach(getDocumentStart())
     try {
         console.log(level)
-        const res = await axios.get(`http://localhost:5000/api/documents/${id}?level=${level}`,{
+        const res = await axios.get(` https://aastudms.herokuapp.com/api/documents/${id}?level=${level}`,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -85,7 +90,7 @@ export const getDocument= async(dispach,id,level)=>{
 export const createFolder = async(dispatch,data,history)=>{
     dispatch(createFolderStart())
     try {
-        const res = await axios.post("http://localhost:5000/api/folder",data,{
+        const res = await axios.post("https://aastudms.herokuapp.com/api/folder",data,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
             }
@@ -99,7 +104,7 @@ export const createFolder = async(dispatch,data,history)=>{
 export const updateFolder = async(dispatch,data,id,history)=>{
     dispatch(updateFolderStart())
     try {
-        const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/folder/${id}`,data
+        const res = await axios.put(`https://aastudms.herokuapp.com/api/folder/${id}`,data
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -116,7 +121,7 @@ export const updateFolder = async(dispatch,data,id,history)=>{
 export const createDocument = async(dispatch,data,history)=>{
    dispatch(createDocumentStart())
    try {
-       const res = await axios.post(`http://localhost:5000/api/documents`,data
+       const res = await axios.post(`https://aastudms.herokuapp.com/api/documents`,data
        ,{
         headers:{
             token:`Bearer ${localStorage.getItem("token")}`
@@ -132,7 +137,7 @@ export const createDocument = async(dispatch,data,history)=>{
 export const sendEmail = async(dispatch,data)=>{
     dispatch(sendEmailStart())
     try {
-        const res = await axios.post("https://documentmanagmentsytem.herokuapp.com/api/documents/email",data
+        const res = await axios.post("https://aastudms.herokuapp.com/api/documents/email",data
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -148,7 +153,7 @@ export const sendEmail = async(dispatch,data)=>{
 export const deleteDocuemnt = async(dispatch,id)=>{
     dispatch(deleteDocumentStart())
     try {
-        const res = await axios.delete(`https://documentmanagmentsytem.herokuapp.com/api/documents/${id}`
+        const res = await axios.delete(`https://aastudms.herokuapp.com/api/documents/${id}`
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -163,7 +168,7 @@ export const deleteDocuemnt = async(dispatch,id)=>{
 export const deleteFolder = async(dispatch,id)=>{
     dispatch(deleteDocumentStart())
     try {
-        const res = await axios.delete(`https://documentmanagmentsytem.herokuapp.com/api/folder/${id}`
+        const res = await axios.delete(`https://aastudms.herokuapp.com/api/folder/${id}`
         ,{
             headers:{
                 token:`Bearer ${localStorage.getItem("token")}`
@@ -178,7 +183,7 @@ export const deleteFolder = async(dispatch,id)=>{
 export const changePassword= async(dispatch,id,data)=>{
   dispatch(changePasswordStart())
   try {
-    const res = await axios.put(`https://documentmanagmentsytem.herokuapp.com/api/users/password/${id}`,data
+    const res = await axios.put(`https://aastudms.herokuapp.com/api/users/password/${id}`,data
     ,{
         headers:{
             token:`Bearer ${localStorage.getItem("token")}`
@@ -188,4 +193,31 @@ export const changePassword= async(dispatch,id,data)=>{
   } catch (error) {
       dispatch(changePasswordFail("Something is wrong"))
   }
+}
+
+export const getUsers =async(dispach)=>{
+    try {
+       dispach(getUsersStart())
+        const res = await axios.get('https://aastudms.herokuapp.com/api/users/client'
+        ,{
+            headers:{
+                token:`Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        console.log(res.data)
+        dispach(getUsersSuccess(res.data))
+    } catch (error) {
+       dispach(getUsersFail("something is wrong"))
+    }
+}
+
+export const sendPasswordReset = async(dispach,data)=>{
+    try {
+        dispach(sendPasswordResetStart())
+        const res = await axios.post('https://aastudms.herokuapp.com/api/auth/forgetpassword', data)
+         dispach(sendPasswordResetSuccess("Chack your email we sent u a password reset link"))       
+    } catch (error) {
+        console.log(error)
+        dispach(sendPasswordResetFail("Something is wrong!!!"))
+    }
 }

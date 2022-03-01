@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {changePassword} from '../../redux/apiCall'
 import {useDispatch,useSelector} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 
 const Container = styled.div`
@@ -40,6 +41,25 @@ export default function ChangePassword() {
       });
     const dispatch = useDispatch()
 
+
+
+    const [screenSize, getDimension] = useState({
+      dynamicWidth: window.innerWidth,
+    });
+    const setDimension = () => {
+      getDimension({
+        dynamicWidth: window.innerWidth
+      })
+    }
+  useEffect(() => {
+      window.addEventListener('resize', setDimension);
+      
+      return(() => {
+          window.removeEventListener('resize', setDimension);
+      })
+    }, [screenSize])
+  
+
     const inputs=[{
         id: 1,
         name: "new_password",
@@ -70,6 +90,8 @@ export default function ChangePassword() {
       };
      
     return (
+      <>
+      {screenSize.dynamicWidth<600 && <Redirect to="/devicenotsupport"/>}
         <Container>
             <Form onSubmit={(e)=>handleSubmit(e)}>
                 <Input {...inputs[1]} onChange={(e)=>onChange(e)} 
@@ -80,5 +102,6 @@ export default function ChangePassword() {
                 <Button type="submit" disabled={user.isFatching}>Update</Button>
             </Form>
         </Container>
+      </>
     )
 }
